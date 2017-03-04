@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HTML Forms</title>
+	<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+</head>
+<body>
+
+<h1 style="float: right;">Arcade Fire-Themed Trivia Quiz
+
+<img src="http://cdn2.pitchfork.com/news/53054/f6449800.jpg"
+
+	style="width: 300px;
+    height: 240px;
+    clear: both;
+    position: absolute;
+    padding: 30px;">
+
+</h1>
+
+<button id="start">Start</button>
+
+<div id="display">02:00</div>
+
+
+<div id="wrapper" style="float: right;border-style: dashed;">
+
+<h3>1) What city is Arcade Fire originally from?</h3>
+<input type="radio" name="city" value="Montreal" id="q1a"> Montreal
+<input type="radio" name="city" value="New York City" id="q1b"> New York City
+<input type="radio" name="city" value="Boston" id="q1c"> Boston
+
+<h3>2) With what other musician does the band share a manager?</h3>
+<input type="radio" name="manager" value="Kanye West" id="q2a"> Kanye West
+<input type="radio" name="manager" value="Bjork" id="q2b"> Bjork
+<input type="radio" name="manager" value="Katy Perry" id="q2c"> Katy Perry
+
+<h3>3) Which song was <i>The Wilderness Downtown</i> -- the band's 2010 interactive HTML5 project -- based on?</h3>
+<input type="radio" name="wilderness" value="Reflektor" id="q3a"> Reflektor
+<input type="radio" name="wilderness" value="Keep the Car Running" id="q3b"> Keep the Car Running
+<input type="radio" name="wilderness" value="We Used To Wait" id="q3c"> We Used to Wait
+
+<h3>4) What Caribbean nation does the band often associate themselves for charity purposes?</h3>
+<input type="radio" name="nation" value="Cuba" id="q4a"> Cuba
+<input type="radio" name="nation" value="Puerto Rico" id="q4b"> Puerto Rico
+<input type="radio" name="nation" value="Haiti" id="q4c"> Haiti
+
+<h3>5) What religion was Butler's family growing up?</h3>
+<input type="radio" name="religion" value="Mormon" id="q5a"> Mormon
+<input type="radio" name="religion" value="Buddhist" id="q5b"> Buddhist
+<input type="radio" name="religion" value="Lutheran" id="q5c"> Lutheran
+
+<br>
+
+<input type="button" id="submit" value="Done">	
+
+</div>
+
+<script type="text/javascript">
+
+	window.onload = function() {
+	  $("#start").click(countdownTimer.start);
+	  $("#wrapper").hide();
+	};
+
+	$("#stop").on("click", function(){
+		clearInterval(countdownTimer);
+	})
+
+	var counter;
+
+	var countdownTimer = {
+		time: 120,
+
+		start: function(){
+			$("#wrapper").show();
+			counter = setInterval(countdownTimer.countdown, 1000);
+		},
+
+		countdown: function(){
+			if(countdownTimer.time <= 0){
+				$("#display").html("00:00");
+				clearInterval(counter);
+				$("#submit").click();	
+				alert("Time's up!");
+				return;
+			}			
+			countdownTimer.time--;
+			// console.log("Current Time: " + countdownTimer.time);
+			var converted = countdownTimer.timeConverter(countdownTimer.time);
+			$("#display").html(converted);
+			// var totalScore = playGame();
+		},
+
+		timeConverter: function(t){
+			var minutes = Math.floor(t / 60);
+			var seconds = t - (minutes * 60);
+
+			if(seconds < 10){
+				seconds = "0" + seconds;
+			}
+
+			if(minutes === 0){
+				minutes = "00";
+			}
+
+			else if(minutes < 10){
+				minutes = "0" + minutes;
+			}
+
+			return minutes + ":" + seconds;
+
+		},
+	};
+
+	// playGame();
+
+	$("#submit").on("click", function(){
+		// alert("You clicked the submit button!");
+
+		var numCorrect = 0;
+
+		if($("#q1a").is(":checked") && 
+		  !$("#q1b").is(":checked") &&
+		  !$("#q1c").is(":checked")){
+			console.log("You got the 1st answer right!");
+			numCorrect++;
+		}
+
+		if($("#q2b").is(":checked") && 
+		  !$("#q2a").is(":checked") &&
+		  !$("#q1c").is(":checked")){
+			console.log("You also got the 2nd answer!");
+			numCorrect++;
+		}
+
+		if($("#q3c").is(":checked") && 
+		  !$("#q3a").is(":checked") &&
+		  !$("#q3b").is(":checked")){
+			console.log("And the 3rd one, too");
+			numCorrect++;
+		}
+
+		if($("#q4c").is(":checked") && 
+		  !$("#q4a").is(":checked") &&
+		  !$("#q4b").is(":checked")){
+			console.log("And the 4th");
+			numCorrect++;
+		}
+
+		if($("#q5a").is(":checked") && 
+		  !$("#q5b").is(":checked") &&
+		  !$("#q5c").is(":checked")){
+			console.log("And the 5th");
+			numCorrect++;
+		}
+
+		// alert("You got " + numCorrect + " correct!");
+		$("#wrapper").append("<p> You got " + numCorrect + "/5 </p>");
+
+	})
+
+</script>
+
+</body>
+</html>
